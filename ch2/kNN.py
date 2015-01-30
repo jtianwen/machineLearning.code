@@ -1,5 +1,6 @@
 from numpy import *
 import operator
+from os import listdir
 
 def createDataSet():
     group = array([[1.0, 1.1], [1.0, 1.0], [0, 0], [0, 0.1]])
@@ -77,3 +78,16 @@ def img2vector(filename):
         for j in range(32):
             returnVect[0, 32*i + j] = int(lineStr[j])
     return returnVect
+
+def handwritingClassTest():
+    hwLabels = []
+    trainingFileList = listdir('trainingDigits')
+    m = len(trainingFileList)
+    trainingMat = zeros((m, 1024))
+    for i in range(m):
+        fileNameStr = trainingFileList[i]
+        fileStr = fileNameStr.split('.')[0]
+        classNumStr = int(fileStr.split('_')[0])
+        hwLabels.append(classNumStr)
+        trainingMat[i, :] = img2vector('trainingDigits/%s' % fileNameStr )
+    
